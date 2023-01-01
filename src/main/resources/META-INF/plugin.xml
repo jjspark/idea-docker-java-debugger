@@ -1,0 +1,43 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.pason.build.idea-docker-degugger</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>Docker Java Debugger</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="parkjustin@gmail.com" url="https://www.justinpark.ca">Justin Park</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+    Automate configuration of Remote JVM Debug with public port that corresponds to Java debug port.
+    ]]></description>
+
+    <change-notes><![CDATA[
+    ]]></change-notes>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceImplementation="ca.justinpark.build.dockerjavadebugger.DockerDebugService"/>
+    </extensions>
+
+    <actions>
+        <action id="debug" class="ca.justinpark.build.dockerjavadebugger.actions.ExecuteDebugAction"
+                text="Docker Debug" description="Debug java container" icon="MyIcons.Debug">
+            <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+        </action>
+        <action id="config" class="ca.justinpark.build.dockerjavadebugger.actions.OpenSettingsAction"
+                text="Docker Debug Config" description="Configure debug java container" icon="MyIcons.Config">
+            <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
