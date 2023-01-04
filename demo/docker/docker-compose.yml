@@ -1,0 +1,7 @@
+services:
+  javaservice:
+    image: java-demo:latest
+    ports:
+      - "5005"
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005
