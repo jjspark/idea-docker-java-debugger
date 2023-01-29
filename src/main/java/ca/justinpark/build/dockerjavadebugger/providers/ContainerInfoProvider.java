@@ -46,6 +46,26 @@ public class ContainerInfoProvider {
         return result;
     }
 
+    public Optional<Container> fetchContainer(String containerName) {
+        try {
+            DockerClient dockerClient = getDockerClient();
+            List<Container> containers = dockerClient.listContainersCmd().exec();
+
+            for (Container container : containers) {
+                String name = container.getNames()[0];
+                if (name.startsWith("/")) {
+                    name = name.substring(1);
+                }
+                if (containerName.equals(name)) {
+                    return Optional.of(container);
+                }
+            }
+        } catch (RuntimeException e) {
+            logger.log(Level.WARNING, "Failed to list of active containers", e);
+        }
+        return Optional.empty();
+    }
+
     private boolean doesContainerNameMatch(Container container, String key) {
         String itemContainerName = container.getNames()[0];
         if (itemContainerName.startsWith("/")) {

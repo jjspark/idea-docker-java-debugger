@@ -24,11 +24,11 @@ public class DockerDebugStateComponent {
         txInternalPort = createInternalPortTextField();
 
         mainPanel.add(new JLabel("Remote JVM Debug"), "align label");
-        mainPanel.add(cbRemoteJvmDebugName, "width 100:400:800, pushx, growx, wrap");
+        mainPanel.add(cbRemoteJvmDebugName, "width 100:500:800, pushx, growx, wrap");
         mainPanel.add(new JLabel("Internal Port (eg. 5005)"), "align label");
-        mainPanel.add(txInternalPort, "width 50:100:, wrap");
+        mainPanel.add(txInternalPort, "width 60:120:, wrap");
         mainPanel.add(new JLabel("Docker Container"), "align label");
-        mainPanel.add(cbContainer, "width 100:400:800, pushx, growx, wrap");
+        mainPanel.add(cbContainer, "width 100:500:800, pushx, growx, wrap");
 
         launchConfigurationNamesProvider.fetchLaunchConfigurationNames().forEach(cbRemoteJvmDebugName::addItem);
         if (cbRemoteJvmDebugName.getItemCount() == 0) {

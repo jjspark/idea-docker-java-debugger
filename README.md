@@ -14,4 +14,22 @@ IntelliJ IDEA plugin that automates port configuration of Remote JVM Debug launc
 5. Click on _Debug_ button the dialog box to start debugging, or click on _Save_ button to debug later with _Docker Debug_ button on the toolbar.
 
 
-Please refer to the demo project in the demo subdirectory for a Java project that's ready for debugging. 
+Please refer to the demo project in the demo subdirectory for a Java project that's ready for debugging.
+
+## Configuration
+* Remote JVM Debug
+  * The debug configuration that will be launched when docker debugger starts.
+* Internal Port
+  * Port number within the container that the Java process will listen for debugger.
+* Docker Container
+  * Docker container to attach a debugger to.
+  * (waitForContainerSeconds)
+    * Number of seconds to wait if container isn't running or the port isn't ready.
+    * This configuration is not visible on UI. It can be modified by adding an _\<option\>_ element to workspace.xml
+      under _\<component name="DockerDebug"\>_
+    * For example, the snippet below would set maximum wait time to 10 seconds.
+    ```xml
+    <component name="DockerDebug">
+        <option name="waitForContainerSeconds" value="10" />
+    </component>
+    ```

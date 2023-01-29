@@ -3,8 +3,7 @@ package ca.justinpark.build.dockerjavadebugger.actions;
 import ca.justinpark.build.dockerjavadebugger.DockerDebugService;
 import ca.justinpark.build.dockerjavadebugger.DockerDebugState;
 import ca.justinpark.build.dockerjavadebugger.OperationFailedException;
-import ca.justinpark.build.dockerjavadebugger.commands.LaunchDebug;
-import ca.justinpark.build.dockerjavadebugger.commands.SaveRemoteJvmPort;
+import ca.justinpark.build.dockerjavadebugger.commands.LaunchDebugWhenContainerStarts;
 import ca.justinpark.build.dockerjavadebugger.providers.ContainerInfoProvider;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
@@ -21,9 +20,9 @@ public class ExecuteDebugActionTest {
 
     @Test
     void actionPerformed() throws OperationFailedException {
-        try (MockedStatic<DockerDebugService> dockerDebugService = mockStatic(DockerDebugService.class);
-             MockedStatic<SaveRemoteJvmPort> saveRemoteJvmPort = mockStatic(SaveRemoteJvmPort.class);
-             MockedStatic<LaunchDebug> launchDebug = mockStatic(LaunchDebug.class)) {
+        try (MockedStatic<DockerDebugService> dockerDebugServiceStatic = mockStatic(DockerDebugService.class);
+             MockedStatic<LaunchDebugWhenContainerStarts> launchDebugStatic = mockStatic(LaunchDebugWhenContainerStarts.class);
+        ) {
             ExecuteDebugAction action = new ExecuteDebugActionMock();
             AnActionEvent event = Mockito.mock(AnActionEvent.class);
             Project project = Mockito.mock(Project.class);
@@ -33,24 +32,20 @@ public class ExecuteDebugActionTest {
                 internalPort = 5005;
             }};
             DockerDebugService dockerDebugServiceInstance = Mockito.mock(DockerDebugService.class);
-            SaveRemoteJvmPort saveRemoteJvmPortInstance = Mockito.mock(SaveRemoteJvmPort.class);
-            LaunchDebug launchDebugInstance = Mockito.mock(LaunchDebug.class);
+            LaunchDebugWhenContainerStarts launchDebugWhenContainerStarts = Mockito.mock(LaunchDebugWhenContainerStarts.class);
+            doAnswer(I -> null).when(launchDebugWhenContainerStarts).run();
 
             when(event.getProject()).thenReturn(project);
-            dockerDebugService.when(() -> DockerDebugService.getInstance(any()))
+            dockerDebugServiceStatic.when(() -> DockerDebugService.getInstance(any()))
                     .thenReturn(dockerDebugServiceInstance);
-            saveRemoteJvmPort.when(() -> SaveRemoteJvmPort.create(project, state.remoteJvmDebug, 49201))
-                    .thenReturn(saveRemoteJvmPortInstance);
-            launchDebug.when(() -> LaunchDebug.create(project, state.remoteJvmDebug))
-                    .thenReturn(launchDebugInstance);
-
+            launchDebugStatic.when(() -> LaunchDebugWhenContainerStarts.create(project, state))
+                    .thenReturn(launchDebugWhenContainerStarts);
             when(dockerDebugServiceInstance.getState()).thenReturn(state);
             when(containerInfoProviderMock.fetchExternalPort(any(), any())).thenReturn(49201);
 
             action.actionPerformed(event);
 
-            verify(launchDebugInstance, times(1)).run();
-            verify(saveRemoteJvmPortInstance, times(1)).run();
+            verify(launchDebugWhenContainerStarts, times(1)).run();
         }
 
     }

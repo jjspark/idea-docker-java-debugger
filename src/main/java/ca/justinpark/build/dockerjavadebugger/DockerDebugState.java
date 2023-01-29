@@ -5,4 +5,5 @@ public class DockerDebugState
     public String remoteJvmDebug;
     public String container;
     public Integer internalPort;
+    public Integer waitForContainerSeconds;
 }
