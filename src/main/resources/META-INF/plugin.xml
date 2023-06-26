@@ -20,9 +20,7 @@
     <change-notes><![CDATA[
     <h1>New Features</h1>
     <ul>
-      <li>Upon starting Docker Debugger, if the target container is not running or the debug port is not yet exposed,
-      then it will wait up to 2 minutes for the port to open up on the target container. The maximum wait time can be
-      configured by editing workspace.xml file.
+      <li>Compatibility with the latest version of IntelliJ IDEA
       </li>
     </ul>
     ]]></change-notes>
