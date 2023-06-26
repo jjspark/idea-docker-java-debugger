@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("org.jetbrains.intellij") version "1.12.0"
+    id("org.jetbrains.intellij") version "1.14.2"
 }
 
 group = "ca.justinpark.build.docker-java-debugger"
@@ -15,6 +15,7 @@ repositories {
 intellij {
     version.set("2021.3.3")
     type.set("IC") // Target IDE Platform
+    updateSinceUntilBuild.set(false)
 
     plugins.set(listOf(/* Plugin Dependencies */))
 }
@@ -42,7 +43,6 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("213")
-        untilBuild.set("223.*")
     }
 
     wrapper {
