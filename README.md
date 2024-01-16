@@ -2,6 +2,11 @@
 
 IntelliJ IDEA plugin that automates port configuration of Remote JVM Debug launch configuration so that you can debug a docker container without having to know the randomly what public port has been randomly selected by docker.
 
+## Enable Toolbar Buttons
+1. Right-click on the toolbar near the "Run" and "Debug" toolbar buttons. In the popup menu, click on "Customize Toolbar" menu item.
+2. In "Customize Navigation Bar Toolbar" dialog box, click on "Add Action" button.
+3. Search for "docker debug", and then select both "Docker Debug" and "Docker Debug Config", and then click on Ok button.
+
 ## Usage
 1. Launch a docker container with java debugger enabled.
     * This can be done with an environment variable on the container. For example, `JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005`

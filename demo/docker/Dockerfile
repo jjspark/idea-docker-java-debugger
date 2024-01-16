@@ -4,4 +4,4 @@ WORKDIR /app
 
 COPY . ./
 RUN ./gradlew build
-CMD ["./gradlew", "run"]
+CMD ["java", "-cp", "./build/libs/demo-1.0-SNAPSHOT.jar:.", "org.example.Main"]

@@ -61,13 +61,15 @@ public class LaunchDebugWhenContainerStartsTest {
              MockedStatic<ProgramRunnerUtil> programRunnerUtil = mockStatic(ProgramRunnerUtil.class);
              MockedStatic<ModalityState> modalityState = mockStatic(ModalityState.class);
              MockedStatic<ApplicationManager> applicationManager = mockStatic(ApplicationManager.class);
-             MockedStatic<CoreProgressManager> coreProgressManager = mockStatic(CoreProgressManager.class)) {
+             MockedStatic<CoreProgressManager> coreProgressManager = mockStatic(CoreProgressManager.class);
+             MockedStatic<ProgressManager> progressManager = mockStatic(ProgressManager.class)) {
             mockedDefaultExecutor.when(DefaultDebugExecutor::getDebugExecutorInstance).thenReturn(executor);
             programRunnerUtil.when(() -> ProgramRunnerUtil.executeConfiguration(launchConfig, executor))
                     .thenAnswer((Answer<Void>) invocation -> null);
             modalityState.when(ModalityState::defaultModalityState).thenReturn(Mockito.mock(ModalityState.class));
             applicationManager.when(ApplicationManager::getApplication).thenReturn(mockApplication);
             coreProgressManager.when(CoreProgressManager::getInstance).thenReturn(mockProgressManager);
+            progressManager.when(ProgressManager::getInstance).thenReturn(mockProgressManager);
 
             launchDebug.run();
 

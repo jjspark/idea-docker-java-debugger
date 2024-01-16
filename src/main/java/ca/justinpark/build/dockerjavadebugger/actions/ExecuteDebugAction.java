@@ -29,7 +29,7 @@ public class ExecuteDebugAction extends AnAction {
             LaunchDebugWhenContainerStarts.create(event.getProject(), state).run();
         } catch (OperationFailedException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
-            JOptionPane.showMessageDialog(event.getProject().getComponent(Window.class),
+            JOptionPane.showMessageDialog(event.getProject().getActualComponentManager().getService(Window.class),
                     e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
