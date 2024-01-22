@@ -14,7 +14,7 @@ repositories {
 
 // Configure Gradle IntelliJ Plugin
 intellij {
-    version.set("2023.1.5")
+    version.set("2023.3")
     type.set("IC") // Target IDE Platform
     updateSinceUntilBuild.set(false)
 
@@ -22,14 +22,14 @@ intellij {
 }
 
 dependencies {
-    implementation("com.github.docker-java:docker-java:3.+")
-    implementation("org.slf4j:slf4j-api:2.+")
-    implementation("com.miglayout:miglayout-swing:11.+")
+    implementation("com.github.docker-java:docker-java:3.3.4")
+    implementation("org.slf4j:slf4j-api:2.0.5")
+    implementation("com.miglayout:miglayout-swing:11.3")
     implementation("com.google.guava:guava:33.0.0-jre")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.+")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.+")
-    testImplementation("org.mockito:mockito-core:5.+")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.9.2")
+    testImplementation("org.mockito:mockito-core:5.2.0")
 }
 
 tasks {
@@ -47,7 +47,7 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("231")
+        sinceBuild.set("233")
     }
 
     wrapper {
@@ -70,5 +70,18 @@ tasks {
         testLogging {
             events("passed")
         }
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force("com.fasterxml.jackson.core:jackson-databind:2.16.1")
+        force("commons-codec:commons-codec:1.16.0")
+        force("io.netty:netty-codec-http:4.1.106.Final")
+        force("io.netty:netty-codec:4.1.106.Final")
+        force("io.netty:netty-common:4.1.106.Final")
+        force("io.netty:netty-handler:4.1.106.Final")
+        force("org.apache.httpcomponents:httpclient:4.5.14")
+        force("org.glassfish.jersey.connectors:jersey-apache-connector:2.41")
     }
 }

@@ -1,7 +1,6 @@
 package ca.justinpark.build.dockerjavadebugger.commands;
 
 import ca.justinpark.build.dockerjavadebugger.OperationFailedException;
-import com.intellij.execution.ExecutionException;
 import com.intellij.execution.Executor;
 import com.intellij.execution.RunnerAndConfigurationSettings;
 import com.intellij.execution.configurations.ConfigurationFactory;
@@ -10,7 +9,6 @@ import com.intellij.execution.configurations.RunProfileState;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.NlsSafe;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +30,7 @@ public class SaveRemoteJvmPortTest {
     }
 
     @Test
-    void run() throws OperationFailedException, NoSuchFieldException {
+    void run() throws OperationFailedException {
         SaveRemoteJvmPort saveRemoteJvmPort = Mockito.spy(SaveRemoteJvmPort.create(project, "debug", 49201));
         RunnerAndConfigurationSettings launchConfig = Mockito.mock(RunnerAndConfigurationSettings.class);
         MockRunConfiguration runConfiguration = Mockito.spy(new MockRunConfiguration());
@@ -45,7 +43,7 @@ public class SaveRemoteJvmPortTest {
     }
 
     @Test
-    void emptyLaunchConfigurationName() throws OperationFailedException {
+    void emptyLaunchConfigurationName() {
         Exception exception = assertThrows(OperationFailedException.class, () -> {
             SaveRemoteJvmPort saveRemoteJvmPort = Mockito.spy(SaveRemoteJvmPort.create(project, "", 49201));
             saveRemoteJvmPort.run();
@@ -57,7 +55,7 @@ public class SaveRemoteJvmPortTest {
     }
 
     @Test
-    void nullLaunchConfigurationName() throws OperationFailedException {
+    void nullLaunchConfigurationName()  {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             SaveRemoteJvmPort saveRemoteJvmPort = Mockito.spy(SaveRemoteJvmPort.create(project, null, 49201));
             saveRemoteJvmPort.run();
@@ -69,7 +67,7 @@ public class SaveRemoteJvmPortTest {
     }
 
     @Test
-    void noRunnerAndConfigurationSettings() throws OperationFailedException {
+    void noRunnerAndConfigurationSettings() {
         Exception exception = assertThrows(OperationFailedException.class, () -> {
             SaveRemoteJvmPort saveRemoteJvmPort = Mockito.spy(SaveRemoteJvmPort.create(project, "debug", 49201));
             doReturn(Optional.empty()).when(saveRemoteJvmPort).getLaunchConfig();
@@ -83,7 +81,7 @@ public class SaveRemoteJvmPortTest {
     }
 
     @Test
-    void noRunConfigurationHasNoPortField() throws OperationFailedException, NoSuchFieldException {
+    void noRunConfigurationHasNoPortField() {
         Exception exception = assertThrows(OperationFailedException.class, () -> {
             SaveRemoteJvmPort saveRemoteJvmPort = Mockito.spy(SaveRemoteJvmPort.create(project, "debug", 49201));
             RunnerAndConfigurationSettings launchConfig = Mockito.mock(RunnerAndConfigurationSettings.class);
@@ -100,7 +98,7 @@ public class SaveRemoteJvmPortTest {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
-    public class MockRunConfiguration implements RunConfiguration {
+    public static class MockRunConfiguration implements RunConfiguration {
         public String PORT;
 
         public String getPort() {
@@ -113,7 +111,7 @@ public class SaveRemoteJvmPortTest {
         }
 
         @Override
-        public void setName(@NlsSafe String name) {
+        public void setName(String name) {
 
         }
 
@@ -133,13 +131,13 @@ public class SaveRemoteJvmPortTest {
         }
 
         @Override
-        public @Nullable RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment environment) throws ExecutionException {
+        public @Nullable RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment environment) {
             return null;
         }
 
         @Override
-        public @NlsSafe @NotNull String getName() {
-            return null;
+        public @NotNull String getName() {
+            return "myrun";
         }
 
         @Override

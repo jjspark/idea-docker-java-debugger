@@ -70,7 +70,7 @@ public class LaunchDebugWhenContainerStarts extends LaunchConfigurationCommand {
         private static final int MAX_WAIT_SECONDS = 600;
         private final DockerDebugState state;
         private final Project project;
-        private RunnerAndConfigurationSettings launchConfig;
+        private final RunnerAndConfigurationSettings launchConfig;
 
         WaitForContainerAndLaunchDebugBackgroundTask(Project project, DockerDebugState state, RunnerAndConfigurationSettings launchConfig) {
             super(project, "Waiting for the container", true, PerformInBackgroundOption.ALWAYS_BACKGROUND);
@@ -127,6 +127,4 @@ public class LaunchDebugWhenContainerStarts extends LaunchConfigurationCommand {
             }
         }
     }
-
-    ;
 }

@@ -16,12 +16,12 @@ import static org.mockito.Mockito.*;
 
 public class ExecuteDebugActionTest {
 
-    ContainerInfoProvider containerInfoProviderMock = Mockito.mock(ContainerInfoProvider.class);
+    final ContainerInfoProvider containerInfoProviderMock = Mockito.mock(ContainerInfoProvider.class);
 
     @Test
     void actionPerformed() throws OperationFailedException {
         try (MockedStatic<DockerDebugService> dockerDebugServiceStatic = mockStatic(DockerDebugService.class);
-             MockedStatic<LaunchDebugWhenContainerStarts> launchDebugStatic = mockStatic(LaunchDebugWhenContainerStarts.class);
+             MockedStatic<LaunchDebugWhenContainerStarts> launchDebugStatic = mockStatic(LaunchDebugWhenContainerStarts.class)
         ) {
             ExecuteDebugAction action = new ExecuteDebugActionMock();
             AnActionEvent event = Mockito.mock(AnActionEvent.class);
@@ -50,11 +50,10 @@ public class ExecuteDebugActionTest {
 
     }
 
-    private class ExecuteDebugActionMock extends ExecuteDebugAction {
+    private static class ExecuteDebugActionMock extends ExecuteDebugAction {
 
         public ExecuteDebugActionMock() {
             super();
-            this.containerInfoProvider = containerInfoProviderMock;
         }
     }
 }

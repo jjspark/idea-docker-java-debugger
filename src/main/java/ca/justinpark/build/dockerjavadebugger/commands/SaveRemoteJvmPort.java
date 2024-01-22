@@ -23,6 +23,18 @@ public class SaveRemoteJvmPort extends LaunchConfigurationCommand {
     }
 
     public void run() throws OperationFailedException {
+        RunConfiguration config = getRunConfiguration();
+        try {
+            Field portField = config.getClass().getDeclaredField("PORT");
+            portField.setAccessible(true);
+            portField.set(config, String.valueOf(externalPort));
+        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
+            throw new OperationFailedException("Failed to save port to launch configuration to workspace.xml file", e);
+        }
+    }
+
+    @NotNull
+    private RunConfiguration getRunConfiguration() throws OperationFailedException {
         if (Strings.isNullOrEmpty(this.launchConfigurationName)) {
             throw new OperationFailedException("No launch configuration provided");
         }
@@ -31,13 +43,6 @@ public class SaveRemoteJvmPort extends LaunchConfigurationCommand {
             throw new OperationFailedException(
                     String.format("Could not find launch configuration named %s", this.launchConfigurationName));
         }
-        RunConfiguration config = launchConfig.get().getConfiguration();
-        try {
-            Field portField = config.getClass().getDeclaredField("PORT");
-            portField.setAccessible(true);
-            portField.set(config, String.valueOf(externalPort));
-        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
-            throw new OperationFailedException("Failed to save port to launch configuration to workspace.xml file", e);
-        }
+        return launchConfig.get().getConfiguration();
     }
 }

@@ -21,7 +21,7 @@ public class IntegerFilter extends DocumentFilter {
     }
 
     private boolean test(String text) {
-        if (text.length() == 0) {
+        if (text.isEmpty()) {
             return true;
         }
         try {

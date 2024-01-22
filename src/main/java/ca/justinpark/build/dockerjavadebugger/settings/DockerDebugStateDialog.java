@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.io.Serial;
 
 public class DockerDebugStateDialog extends DialogWrapper {
     private final DockerDebugStateComponent mainComponent;
@@ -71,6 +72,7 @@ public class DockerDebugStateDialog extends DialogWrapper {
 
     private class SaveAction extends DialogWrapperAction {
 
+        @Serial
         private static final long serialVersionUID = -8933218291466893901L;
 
         protected SaveAction() {
@@ -91,6 +93,7 @@ public class DockerDebugStateDialog extends DialogWrapper {
     }
 
     private class DebugAction extends DialogWrapperAction {
+        @Serial
         private static final long serialVersionUID = -6091871625401912573L;
 
         protected DebugAction() {

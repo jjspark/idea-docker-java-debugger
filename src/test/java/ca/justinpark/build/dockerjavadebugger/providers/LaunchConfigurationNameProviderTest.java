@@ -35,7 +35,7 @@ public class LaunchConfigurationNameProviderTest {
     }
 
     @Test
-    void fetchLaunchConfigurationNamesNoWorkspaceFile() throws IOException {
+    void fetchLaunchConfigurationNamesNoWorkspaceFile() {
         when(this.project.getWorkspaceFile()).thenReturn(null);
         assertEquals(0, this.provider.fetchLaunchConfigurationNames().size());
     }

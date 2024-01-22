@@ -48,8 +48,8 @@ public class IntegerFilterTest {
 
     }
 
-    class FakeFilterBypass extends DocumentFilter.FilterBypass {
-        private Document doc;
+    static class FakeFilterBypass extends DocumentFilter.FilterBypass {
+        private final Document doc;
 
         public FakeFilterBypass(Document doc) {
             this.doc = doc;

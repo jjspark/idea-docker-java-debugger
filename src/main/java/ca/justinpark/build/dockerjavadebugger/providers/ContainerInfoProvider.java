@@ -8,6 +8,7 @@ import com.github.dockerjava.api.model.ContainerPort;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientBuilder;
 import org.apache.commons.lang3.SystemUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,26 +47,6 @@ public class ContainerInfoProvider {
         return result;
     }
 
-    public Optional<Container> fetchContainer(String containerName) {
-        try {
-            DockerClient dockerClient = getDockerClient();
-            List<Container> containers = dockerClient.listContainersCmd().exec();
-
-            for (Container container : containers) {
-                String name = container.getNames()[0];
-                if (name.startsWith("/")) {
-                    name = name.substring(1);
-                }
-                if (containerName.equals(name)) {
-                    return Optional.of(container);
-                }
-            }
-        } catch (RuntimeException e) {
-            logger.log(Level.WARNING, "Failed to list of active containers", e);
-        }
-        return Optional.empty();
-    }
-
     private boolean doesContainerNameMatch(Container container, String key) {
         String itemContainerName = container.getNames()[0];
         if (itemContainerName.startsWith("/")) {
@@ -86,6 +67,12 @@ public class ContainerInfoProvider {
         if (containers.isEmpty()) {
             throw new OperationFailedException(String.format("Could find container named %s", containerName));
         }
+        Optional<Integer> externalPort = getExternalPort(containerName, internalPort, containers);
+        return externalPort.get();
+    }
+
+    @NotNull
+    private static Optional<Integer> getExternalPort(String containerName, Integer internalPort, List<Container> containers) throws OperationFailedException {
         Optional<Integer> externalPort = Optional.empty();
         for (ContainerPort item : containers.get(0).getPorts()) {
             if (item.getPrivatePort() != null && item.getPrivatePort().equals(internalPort)) {
@@ -100,6 +87,6 @@ public class ContainerInfoProvider {
             throw new OperationFailedException(
                     String.format("Port %d is not exposed on container %s", internalPort, containerName));
         }
-        return externalPort.get();
+        return externalPort;
     }
 }
