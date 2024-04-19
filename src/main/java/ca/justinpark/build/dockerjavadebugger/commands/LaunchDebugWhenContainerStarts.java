@@ -33,7 +33,13 @@ public class LaunchDebugWhenContainerStarts extends LaunchConfigurationCommand {
      * @param state   State of the plugin
      * @return LaunchDebug
      */
-    public static LaunchDebugWhenContainerStarts create(@NotNull Project project, @NotNull DockerDebugState state) {
+    public static LaunchDebugWhenContainerStarts create(@NotNull Project project, @NotNull DockerDebugState state) throws OperationFailedException {
+        if (Strings.isNullOrEmpty(state.remoteJvmDebug)) {
+            throw new OperationFailedException("No launch configuration provided. Please open Docker Debug Settings dialog box and select Remote JVM Debug");
+        }
+        if (Strings.isNullOrEmpty(state.container)) {
+            throw new OperationFailedException("No container name provided. Please open Docker Debug Settings dialog box and enter container name to attach the debugger to.");
+        }
         return new LaunchDebugWhenContainerStarts(project, state);
     }
 
@@ -50,9 +56,6 @@ public class LaunchDebugWhenContainerStarts extends LaunchConfigurationCommand {
     }
 
     public void run() throws OperationFailedException {
-        if (Strings.isNullOrEmpty(this.launchConfigurationName)) {
-            throw new OperationFailedException("No launch configuration provided");
-        }
         Optional<RunnerAndConfigurationSettings> launchConfig = getLaunchConfig();
         if (launchConfig.isEmpty()) {
             throw new OperationFailedException(
@@ -73,7 +76,7 @@ public class LaunchDebugWhenContainerStarts extends LaunchConfigurationCommand {
         private final RunnerAndConfigurationSettings launchConfig;
 
         WaitForContainerAndLaunchDebugBackgroundTask(Project project, DockerDebugState state, RunnerAndConfigurationSettings launchConfig) {
-            super(project, "Waiting for the container", true, PerformInBackgroundOption.ALWAYS_BACKGROUND);
+            super(project, "Waiting for the container", true);
             this.launchConfig = launchConfig;
             this.state = state;
             this.project = project;

@@ -8,7 +8,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,9 +23,12 @@ public class ExecuteDebugAction extends AnAction {
         try {
             LaunchDebugWhenContainerStarts.create(event.getProject(), state).run();
         } catch (OperationFailedException e) {
-            logger.log(Level.SEVERE, e.getMessage(), e);
-            JOptionPane.showMessageDialog(null,
-                    e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            logger.log(Level.WARNING, e.getMessage(), e);
+            com.intellij.openapi.ui.Messages.showErrorDialog(e.getMessage(), "Configuration error");
+//            JOptionPane.showMessageDialog(com.intellij.openapi.wm.WindowManager.getInstance().suggestParentWindow(event.getProject()),
+//                    e.getMessage(), "Message", JOptionPane.PLAIN_MESSAGE);
+//            JOptionPane.showInternalMessageDialog(null,
+//                    e.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
         }
     }
 }

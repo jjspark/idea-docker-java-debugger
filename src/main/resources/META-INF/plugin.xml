@@ -18,12 +18,10 @@
     ]]></description>
 
     <change-notes><![CDATA[
-    <h1>New Features</h1>
+    <h1>Bug fixes</h1>
     <ul>
-      <li>Compatibility with IntelliJ IDEA 2023 version
+      <li>Fixed exception handling when no launch configuration or container name was provided.
       </li>
-      <li>Optimized dependencies
-      </li
     </ul>
     ]]></change-notes>
 

@@ -94,11 +94,11 @@ public class LaunchDebugWhenContainerStartsTest {
     @Test
     void nullLaunchConfigurationName() {
         DockerDebugState state = new DockerDebugState();
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        Exception exception = assertThrows(OperationFailedException.class, () -> {
             LaunchDebugWhenContainerStarts launchDebug = Mockito.spy(LaunchDebugWhenContainerStarts.create(project, state));
             launchDebug.run();
         });
-        String expectedMessage = "must not be null";
+        String expectedMessage = "No launch configuration provided";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
@@ -114,7 +114,7 @@ public class LaunchDebugWhenContainerStartsTest {
 
             launchDebug.run();
         });
-        String expectedMessage = "Could not find launch configuration named debug";
+        String expectedMessage = "No container name provided";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
